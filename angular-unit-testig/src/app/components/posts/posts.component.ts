@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from '../../models/post.model';
 import { PostService } from '../../services/post/post.service';
+import { PostComponent } from '../post/post.component';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-posts',
   standalone: true,
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.css'],
+  imports: [PostComponent, NgFor],
 })
 export class PostsComponent implements OnInit {
   posts: Post[] = [];
