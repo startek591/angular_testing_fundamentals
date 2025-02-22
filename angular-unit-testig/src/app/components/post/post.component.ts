@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Post } from '../../models/post.model';
 import { RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
@@ -11,11 +11,11 @@ import { NgIf } from '@angular/common';
   styleUrls: ['./post.component.css'],
 })
 export class PostComponent {
-  @Input() post: Post | null = null;
-  @Output() delete = new EventEmitter<void>();
+  @Input() post!: Post;
+  @Output() delete = new EventEmitter<Post>();
 
   onDeletePost(event: Event) {
-    event.stopPropagation();
-    this.delete.emit();
+    event.preventDefault();
+    this.delete.emit(this.post);
   }
 }
