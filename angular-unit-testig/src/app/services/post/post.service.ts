@@ -23,4 +23,11 @@ export class PostService {
       `https://jsonplaceholder.typicode.com/posts/${post.id}`
     );
   }
+
+  updatePost(post: Post) {
+    return this.http.put(
+      `https://jsonplaceholder.typicode.com/posts/${post.id}`,
+      post
+    );
+  }
 }
