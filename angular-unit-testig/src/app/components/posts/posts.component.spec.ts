@@ -1,4 +1,3 @@
-import { Component, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
@@ -6,20 +5,13 @@ import { Post } from '../../models/post.model';
 import { PostsComponent } from './posts.component';
 import { PostService } from '../../services/post/post.service';
 import { RouterTestingModule } from '@angular/router/testing';
+import { PostComponent } from '../post/post.component';
 
 describe('PostsComponent', () => {
   let POSTS: Post[];
   let component: PostsComponent;
   let mockPostService: any;
   let fixture: ComponentFixture<PostsComponent>;
-
-  @Component({
-    selector: 'app-post',
-    template: '<div></div>',
-  })
-  class FakePostComponent {
-    @Input() post!: Post;
-  }
 
   beforeEach(() => {
     POSTS = [
@@ -31,12 +23,22 @@ describe('PostsComponent', () => {
     mockPostService = jasmine.createSpyObj(['getPosts', 'deletePost']);
 
     TestBed.configureTestingModule({
-      imports: [PostsComponent, RouterTestingModule, FakePostComponent],
+      imports: [PostsComponent, RouterTestingModule, PostComponent],
       providers: [{ provide: PostService, useValue: mockPostService }],
     });
 
     fixture = TestBed.createComponent(PostsComponent);
     component = fixture.componentInstance;
+  });
+
+  it('should create exact same number of Post Component with Posts', () => {
+    mockPostService.getPosts.and.returnValue(of(POSTS));
+    fixture.detectChanges();
+    const postComponentDEs = fixture.debugElement.queryAll(
+      By.directive(PostComponent)
+    );
+
+    expect(postComponentDEs.length).toBe(POSTS.length);
   });
 
   it('should set posts from the service directly', () => {
