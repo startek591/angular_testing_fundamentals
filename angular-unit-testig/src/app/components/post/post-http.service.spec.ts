@@ -49,4 +49,19 @@ describe('postService (HttpClientTestingModule)', () => {
       expect(request.request.method).toBe('GET');
     });
   });
+
+  describe('getPost', () => {
+    it('should return single post when getpost is called with postId', () => {
+      postService.getPost(1).subscribe();
+
+      const request = httpTestingController.expectOne(
+        'https://jsonplaceholder.typicode.com/posts/1'
+      );
+      expect(request.request.method).toBe('GET');
+    });
+
+    afterEach(() => {
+      httpTestingController.verify();
+    });
+  });
 });
