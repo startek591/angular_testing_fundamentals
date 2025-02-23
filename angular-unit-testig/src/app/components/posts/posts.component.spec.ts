@@ -1,3 +1,4 @@
+import { Component, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Post } from '../../models/post.model';
@@ -11,6 +12,14 @@ describe('PostsComponent', () => {
   let mockPostService: any;
   let fixture: ComponentFixture<PostsComponent>;
 
+  @Component({
+    selector: 'app-post',
+    template: '<div></div>',
+  })
+  class FakePostComponent {
+    @Input() post!: Post;
+  }
+
   beforeEach(() => {
     POSTS = [
       { id: 1, title: 'Post 1', body: 'Body 1' },
@@ -21,7 +30,7 @@ describe('PostsComponent', () => {
     mockPostService = jasmine.createSpyObj(['getPosts', 'deletePost']);
 
     TestBed.configureTestingModule({
-      imports: [PostsComponent, RouterTestingModule],
+      imports: [PostsComponent, RouterTestingModule, FakePostComponent],
       providers: [{ provide: PostService, useValue: mockPostService }],
     });
 
